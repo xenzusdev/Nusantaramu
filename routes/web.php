@@ -20,10 +20,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/withdraw', [App\Http\Controllers\WithdrawController::class, 'index'])->name('withdraw.index');
     Route::post('/withdraw', [App\Http\Controllers\WithdrawController::class, 'store'])->name('withdraw.store');
 
-Route::get('/simulation', [DashboardController::class, 'simulation'])->name('simulation');
-Route::post('/simulation', [DashboardController::class, 'storeSimulation'])->name('simulation.store');
+    Route::post('/notifications/mark-all-read', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+    return back();
+    })->name('notifications.markRead');
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/sedekah', [App\Http\Controllers\DonationController::class, 'index'])->name('donation.index');
+    Route::post('/sedekah', [App\Http\Controllers\DonationController::class, 'store'])->name('donation.store');
+
+    Route::get('/simulation', [DashboardController::class, 'simulation'])->name('simulation');
+    Route::post('/simulation', [DashboardController::class, 'storeSimulation'])->name('simulation.store');
+
+    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/withdrawals', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.withdraw.index');
     Route::patch('/withdrawals/{id}', [App\Http\Controllers\AdminController::class, 'updateStatus'])->name('admin.withdraw.update');
 });

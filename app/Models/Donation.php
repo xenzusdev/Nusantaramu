@@ -5,13 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Device extends Model
+class Donation extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'device_code',
-        'location',
-        'status',
-    ];
+    protected $fillable = ['user_id', 'institution', 'amount', 'prayer'];
 }

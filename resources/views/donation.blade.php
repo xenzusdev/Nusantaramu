@@ -12,8 +12,8 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         </a>
                         <div class="text-white">
-                            <p class="text-emerald-100 text-sm font-medium">Menu Keuangan</p>
-                            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Tarik Saldo</h1>
+                            <p class="text-emerald-100 text-sm font-medium">Berbagi Kebaikan</p>
+                            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Sedekah & Infaq</h1>
                         </div>
                     </div>
                     <div class="bg-white p-2 rounded-xl shadow-md">
@@ -27,7 +27,7 @@
             
             @if(session('success'))
             <div class="bg-emerald-100 border-l-4 border-emerald-500 text-emerald-700 p-4 rounded-r-xl shadow-md flex items-center gap-3 animate-fade-in-up">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                 <span class="font-medium">{{ session('success') }}</span>
             </div>
             @endif
@@ -51,40 +51,40 @@
                 <div class="lg:col-span-2 space-y-6">
                     
                     <div class="bg-[#0f172a] rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden transform transition hover:scale-[1.01]">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-teal-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>
-                                <p class="text-gray-400 text-sm mb-1">Saldo Tersedia</p>
-                                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-emerald-400">
+                                <p class="text-gray-400 text-sm mb-1">Saldo Kebaikan</p>
+                                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-teal-400">
                                     Rp {{ number_format($user->wallet_balance, 0, ',', '.') }}
                                 </h2>
-                                <p class="text-xs text-gray-500 mt-2">*Saldo akan berkurang otomatis setelah pengajuan</p>
+                                <p class="text-xs text-gray-500 mt-2">*Harta tidak akan berkurang karena sedekah</p>
                             </div>
                             <div class="p-4 bg-white/10 rounded-2xl border border-white/10">
-                                <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                <svg class="w-8 h-8 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
                         <h3 class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
-                            <span class="bg-emerald-100 p-2 rounded-lg text-emerald-600">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            <span class="bg-teal-100 p-2 rounded-lg text-teal-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                             </span>
-                            Formulir Pengajuan
+                            Salurkan Donasi
                         </h3>
                         
-                        <form action="{{ route('withdraw.store') }}" method="POST" class="space-y-6">
+                        <form action="{{ route('donation.store') }}" method="POST" class="space-y-6">
                             @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Metode Pencairan</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Lembaga</label>
                                     <div class="relative">
-                                        <select name="payment_method" class="block w-full rounded-xl border-gray-200 bg-gray-50 focus:border-emerald-500 focus:ring-emerald-500 py-3 px-4 transition">
-                                            <option value="GOPAY">GoPay</option>
-                                            <option value="DANA">DANA</option>
-                                            <option value="OVO">OVO</option>
-                                            <option value="SHOPEEPAY">ShopeePay</option>
+                                        <select name="institution" class="block w-full rounded-xl border-gray-200 bg-gray-50 focus:border-teal-500 focus:ring-teal-500 py-3 px-4 transition">
+                                            <option value="Lazismu">Lazismu (Zakat & Infaq)</option>
+                                            <option value="MDMC">MDMC (Bencana Alam)</option>
+                                            <option value="Panti Asuhan Aisyiyah">Panti Asuhan Aisyiyah</option>
+                                            <option value="Beasiswa Mentari">Beasiswa Pendidikan</option>
                                         </select>
                                         <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-500">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -93,23 +93,23 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nominal (Min. 10.000)</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nominal Infaq</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <span class="text-gray-500 font-bold">Rp</span>
                                         </div>
-                                        <input type="number" name="amount" min="10000" class="block w-full pl-12 rounded-xl border-gray-200 bg-gray-50 focus:border-emerald-500 focus:ring-emerald-500 py-3 px-4 transition" placeholder="0" required>
+                                        <input type="number" name="amount" min="1000" class="block w-full pl-12 rounded-xl border-gray-200 bg-gray-50 focus:border-teal-500 focus:ring-teal-500 py-3 px-4 transition" placeholder="0" required>
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor E-Wallet / Rekening</label>
-                                <input type="number" name="account_number" class="block w-full rounded-xl border-gray-200 bg-gray-50 focus:border-emerald-500 focus:ring-emerald-500 py-3 px-4 transition" placeholder="Contoh: 081234567890" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Doa / Harapan (Opsional)</label>
+                                <textarea name="prayer" rows="2" class="block w-full rounded-xl border-gray-200 bg-gray-50 focus:border-teal-500 focus:ring-teal-500 py-3 px-4 transition" placeholder="Semoga berkah dan bermanfaat..."></textarea>
                             </div>
 
-                            <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transform hover:-translate-y-1 transition duration-300">
-                                Ajukan Penarikan Sekarang
+                            <button type="submit" class="w-full bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-teal-500/30 hover:shadow-teal-500/50 transform hover:-translate-y-1 transition duration-300">
+                                Bismillah, Kirim Donasi
                             </button>
                         </form>
                     </div>
@@ -120,7 +120,7 @@
                         <div class="p-6 border-b border-gray-100 bg-gray-50/50">
                             <h3 class="font-bold text-gray-800 flex items-center gap-2">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Riwayat Transaksi
+                                Jejak Kebaikan
                             </h3>
                         </div>
                         <div class="divide-y divide-gray-100 overflow-y-auto max-h-[600px] p-2">
@@ -128,36 +128,31 @@
                             <div class="p-4 hover:bg-gray-50 transition rounded-xl group">
                                 <div class="flex justify-between items-start mb-2">
                                     <div class="flex items-center gap-3">
-                                        <div class="bg-gray-100 p-2 rounded-lg text-gray-600 group-hover:bg-white group-hover:shadow-sm transition">
-                                            @if($item->payment_method == 'DANA') 
-                                                <span class="font-bold text-blue-500 text-xs">DANA</span>
-                                            @elseif($item->payment_method == 'GOPAY')
-                                                <span class="font-bold text-green-500 text-xs">GOPAY</span>
-                                            @elseif($item->payment_method == 'OVO')
-                                                <span class="font-bold text-purple-500 text-xs">OVO</span>
-                                            @else
-                                                <span class="font-bold text-orange-500 text-xs">SPAY</span>
-                                            @endif
+                                        <div class="bg-teal-100 p-2 rounded-lg text-teal-600 group-hover:bg-teal-500 group-hover:text-white transition">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                                         </div>
                                         <div>
-                                            <p class="font-bold text-gray-800 text-sm">{{ $item->account_number }}</p>
-                                            <p class="text-xs text-gray-400">{{ $item->created_at->format('d M Y, H:i') }}</p>
+                                            <p class="font-bold text-gray-800 text-sm">{{ $item->institution }}</p>
+                                            <p class="text-xs text-gray-400">{{ $item->created_at->format('d M Y') }}</p>
                                         </div>
                                     </div>
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                        {{ $item->status == 'completed' ? 'bg-emerald-100 text-emerald-600' : 
-                                           ($item->status == 'pending' ? 'bg-amber-100 text-amber-600' : 'bg-red-100 text-red-600') }}">
-                                        {{ $item->status }}
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-600">
+                                        BERHASIL
                                     </span>
                                 </div>
-                                <p class="text-right font-bold text-gray-900">- Rp {{ number_format($item->amount, 0, ',', '.') }}</p>
+                                <p class="text-right font-bold text-teal-600">- Rp {{ number_format($item->amount, 0, ',', '.') }}</p>
+                                @if($item->prayer)
+                                <div class="mt-2 bg-gray-50 p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500 italic">"{{ $item->prayer }}"</p>
+                                </div>
+                                @endif
                             </div>
                             @empty
                             <div class="flex flex-col items-center justify-center py-10 text-center">
                                 <div class="bg-gray-50 p-4 rounded-full mb-3">
-                                    <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                                 </div>
-                                <p class="text-gray-400 text-sm">Belum ada riwayat penarikan.</p>
+                                <p class="text-gray-400 text-sm">Belum ada riwayat sedekah.</p>
                             </div>
                             @endforelse
                         </div>
