@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Withdrawal;
 use App\Models\User;
 
@@ -11,36 +12,62 @@ class WithdrawController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $history = Withdrawal::where('user_id', $user->id)->latest()->get();
-        return view('withdraw', compact('user', 'history'));
+        return view('withdraw');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'payment_method' => 'required|in:GOPAY,DANA,OVO,SHOPEEPAY',
-            'account_number' => 'required|numeric',
-            'amount' => 'required|numeric|min:10000',
+            'payment_method' => 'required|string',
+            'account_number' => 'required|numeric|digits_between:8,15',
+            'amount' => 'required|numeric|min:10000|max:1000000',
         ]);
 
-        /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if ($user->wallet_balance < $request->amount) {
-            return back()->withErrors(['amount' => 'Saldo tidak mencukupi untuk penarikan ini.']);
+        try {
+            DB::beginTransaction();
+
+            // KUNCI ROW USER: Mencegah race condition (double withdraw)
+            // Sistem lain harus antre sampai blok ini selesai
+            $lockedUser = User::where('id', $user->id)->lockForUpdate()->first();
+
+            // 1. Cek Saldo Cukup?
+            if ($lockedUser->wallet_balance < $request->amount) {
+                DB::rollBack();
+                return back()->withErrors(['amount' => 'Saldo tidak mencukupi.']);
+            }
+
+            // 2. Cek Apakah Ada Transaksi Pending? (Anti-Spam)
+            $pendingExists = Withdrawal::where('user_id', $lockedUser->id)
+                ->where('status', 'pending')
+                ->exists();
+
+            if ($pendingExists) {
+                DB::rollBack();
+                return back()->withErrors(['error' => 'Selesaikan penarikan sebelumnya dulu.']);
+            }
+
+            // 3. Potong Saldo DULUAN (Penting: Potong sebelum simpan request)
+            $lockedUser->wallet_balance -= $request->amount;
+            $lockedUser->save();
+
+            // 4. Buat Record Penarikan
+            Withdrawal::create([
+                'user_id' => $lockedUser->id,
+                'payment_method' => $request->payment_method,
+                'account_number' => $request->account_number,
+                'amount' => $request->amount,
+                'status' => 'pending'
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('withdraw.index')->with('success', 'Permintaan penarikan berhasil diajukan.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Terjadi kesalahan sistem. Coba lagi.']);
         }
-
-        Withdrawal::create([
-            'user_id' => $user->id,
-            'payment_method' => $request->payment_method,
-            'account_number' => $request->account_number,
-            'amount' => $request->amount,
-        ]);
-
-        $user->wallet_balance -= $request->amount;
-        $user->save();
-
-        return redirect()->route('withdraw.index')->with('success', 'Permintaan penarikan berhasil dikirim!');
     }
 }
